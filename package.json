@@ -1,6 +1,6 @@
 {
   "name": "nanocyte-configuration-saver-mongo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Save nanocyte configuration to mongo",
   "main": "index.js",
   "scripts": {
@@ -32,5 +32,7 @@
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "async": "^2.0.0-rc.6"
+  }
 }

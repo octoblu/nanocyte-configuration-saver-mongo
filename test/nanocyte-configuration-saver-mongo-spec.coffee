@@ -80,13 +80,12 @@ describe 'ConfigrationSaverMongo', ->
         @sut.save flowId: 'some-flow-uuid-stop', instanceId: 'my-instance-id', flowData: @flowData, done
 
       beforeEach (done) ->
-        @sut.stop flowId: 'some-flow-uuid', instanceId: 'my-instance-id', done
+        @flowData = 'stop'
 
-      it 'should not change the other instance', (done) ->
-        @datastore.findOne {flowId: 'some-flow-uuid', instanceId: 'other-instance-id'}, (error, {flowData}) =>
-          return done error if error?
-          expect(JSON.parse flowData).to.equal 'other instance'
-          done()
+        @sut.save flowId: 'some-flow-uuid-stop', instanceId: 'other-instance-id', flowData: @flowData, done
+
+      beforeEach (done) ->
+        @sut.stop flowId: 'some-flow-uuid', instanceId: 'my-instance-id', done
 
       it 'should remove the stop configuration', (done) ->
         @datastore.findOne {flowId: 'some-flow-uuid-stop', instanceId: 'my-instance-id'}, (error, result) =>
@@ -97,6 +96,12 @@ describe 'ConfigrationSaverMongo', ->
       describe 'after the config is removed', ->
         it 'should replace the configuration with the stop configuration', (done) ->
           @datastore.findOne {flowId: 'some-flow-uuid', instanceId: 'my-instance-id'}, (error, {flowData}) =>
+            return done error if error?
+            expect(JSON.parse flowData).to.equal 'stop'
+            done()
+
+        it 'should change the other instance', (done) ->
+          @datastore.findOne {flowId: 'some-flow-uuid', instanceId: 'other-instance-id'}, (error, {flowData}) =>
             return done error if error?
             expect(JSON.parse flowData).to.equal 'stop'
             done()

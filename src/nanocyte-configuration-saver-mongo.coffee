@@ -1,3 +1,5 @@
+async = require 'async'
+
 class NanocyteConfigurationSaverMongo
   constructor: ({@datastore}) ->
     throw new Error 'NanocyteConfigurationSaverMongo requires datastore' unless @datastore?
@@ -5,14 +7,21 @@ class NanocyteConfigurationSaverMongo
   stop: (options, callback) =>
     {flowId, instanceId} = options
     stopFlowId = "#{flowId}-stop"
-    @datastore.findOne {flowId: stopFlowId, instanceId}, (error, record) =>
+    @datastore.find {flowId: stopFlowId}, (error, records) =>
       return callback error if error?
-      @datastore.remove {flowId: stopFlowId, instanceId}, (error) =>
+      async.each records, async.apply(@_replaceConfig, flowId), callback
+
+  _replaceConfig: (flowId, record, callback) =>
+    {instanceId, flowData} = record
+    stopFlowId = record.flowId
+    # remove old config
+    @datastore.remove {flowId, instanceId}, (error) =>
+      return callback error if error?
+      # replace it with stop config
+      @datastore.insert {flowId, instanceId, flowData}, (error) =>
         return callback error if error?
-        @datastore.remove {flowId, instanceId}, (error) =>
-          return callback error if error?
-          record.flowId = flowId
-          @datastore.insert record, callback
+        # remove stop config
+        @datastore.remove {flowId: stopFlowId, instanceId}, callback
 
   save: (options, callback) =>
     {flowId, instanceId, flowData} = options
