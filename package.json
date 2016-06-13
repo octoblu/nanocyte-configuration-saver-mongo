@@ -1,0 +1,36 @@
+{
+  "name": "nanocyte-configuration-saver-mongo",
+  "version": "1.0.0",
+  "description": "Save nanocyte configuration to mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "istanbul cover _mocha -- -R spec --require coffee-coverage/register-istanbul"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/octoblu/nanocyte-configuration-saver-mongo.git"
+  },
+  "keywords": [
+    "nanocyte",
+    "mongodb"
+  ],
+  "author": "Octoblu <npm@octoblu.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/octoblu/nanocyte-configuration-saver-mongo/issues"
+  },
+  "homepage": "https://github.com/octoblu/nanocyte-configuration-saver-mongo#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coffee-coverage": "^0.6.3",
+    "coffee-script": "^1.10.0",
+    "istanbul": "^0.3.22",
+    "meshblu-core-datastore": "^4.6.0",
+    "mocha": "^2.5.3",
+    "mocha-istanbul": "^0.2.0",
+    "mongojs": "^2.4.0",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {}
+}
