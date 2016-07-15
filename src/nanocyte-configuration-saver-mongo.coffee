@@ -10,7 +10,8 @@ class NanocyteConfigurationSaverMongo
     stopFlowId = "#{flowId}-stop"
     @datastore.find {flowId: stopFlowId}, (error, records) =>
       return callback error if error?
-      async.each records, async.apply(@_replaceConfig, flowId), callback
+      async.each records, async.apply(@_replaceConfig, flowId), (error) =>
+        callback error, records
 
   _replaceConfig: (flowId, record, callback) =>
     {instanceId, flowData, hash} = record

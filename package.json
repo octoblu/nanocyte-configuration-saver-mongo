@@ -1,6 +1,6 @@
 {
   "name": "nanocyte-configuration-saver-mongo",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Save nanocyte configuration to mongo",
   "main": "index.js",
   "scripts": {
